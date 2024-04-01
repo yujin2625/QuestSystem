@@ -34,21 +34,23 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private string GetUserQuestURL;        // 유저의 퀘스트 정보 받아오는 url
     [SerializeField] private string GetQuestURL;            // 퀘스트 정보 받아오는 url
     [SerializeField] private Transform QuestParent;         // 퀘스트 생성 시 부모 오브젝트
-    //[SerializeField] private List<QuestObject> QuestPrefabs = new List<QuestObject>(); 
 
     [Space(10f)]
 
     // Serialized for Debugging
     [Header("View Result")]
     [SerializeField] private bool IsQuestSet = true;        // 퀘스트 정보 받아오기 완료 했나?
-    //public UserQuestDataSet userQuestDataSet;               // 유저의 퀘스트 데이터
-    //public QuestDataSet questDataSet;                       // 퀘스트 데이터
-    [Space(10f)]
 
-    [Header("QuestList")]
+
     // #### 퀘스트 정보는 항상 QuestList 사용 ####
     public List<Quest> QuestList = new List<Quest>();       // 통합 퀘스트 정보
 
+    #region ForDebugging
+
+    //public UserQuestDataSet userQuestDataSet;               // 유저의 퀘스트 데이터
+    //public QuestDataSet questDataSet;                       // 퀘스트 데이터
+
+    #endregion
 
     private List<QuestObject> QuestObjects { get { return QuestParent.GetComponentsInChildren<QuestObject>().ToList(); } }
 

@@ -8,15 +8,12 @@ public class UIStep : StepBase
     [SerializeField] private string ButtonName;
     public override void EndStep()
     {
+        QuestUIManager.Instance.ButtonDictionary[ButtonName].onClick.RemoveListener(EndStep);
         Debug.Log("UIStep Complete !!");
         base.EndStep();
     }
     private void OnEnable()
     {
-        UIManager.Instance.ButtonDictionary[ButtonName].onClick.AddListener(EndStep);
-    }
-    private void OnDisable()
-    {
-        UIManager.Instance.ButtonDictionary[ButtonName].onClick.RemoveListener(EndStep);
+        QuestUIManager.Instance.ButtonDictionary[ButtonName].onClick.AddListener(EndStep);
     }
 }

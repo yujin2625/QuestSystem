@@ -269,6 +269,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5761154473086433731}
     m_Modifications:
+    - target: {fileID: 1630816106115855995, guid: cb08cd9d997c2d141bd8fd54ab7c5db4, type: 3}
+      propertyPath: ButtonName
+      value: QuestButton
+      objectReference: {fileID: 0}
     - target: {fileID: 4816704592536790923, guid: cb08cd9d997c2d141bd8fd54ab7c5db4, type: 3}
       propertyPath: m_Name
       value: UIStep (1)
