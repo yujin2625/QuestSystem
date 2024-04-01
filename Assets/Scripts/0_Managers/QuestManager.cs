@@ -31,38 +31,39 @@ public class QuestManager : MonoBehaviour
 
     // Need to get input from inspector
     [Header("Required Inputs")]
-    [SerializeField] private string GetUserQuestURL;
-    [SerializeField] private string GetQuestURL;
-    [SerializeField] private Transform QuestParent;
-    [SerializeField] private List<QuestObject> QuestPrefabs = new List<QuestObject>();
+    [SerializeField] private string GetUserQuestURL;        // 유저의 퀘스트 정보 받아오는 url
+    [SerializeField] private string GetQuestURL;            // 퀘스트 정보 받아오는 url
+    [SerializeField] private Transform QuestParent;         // 퀘스트 생성 시 부모 오브젝트
+    //[SerializeField] private List<QuestObject> QuestPrefabs = new List<QuestObject>(); 
 
     [Space(10f)]
 
     // Serialized for Debugging
     [Header("View Result")]
-    [SerializeField] private bool IsQuestSet = true;
-    public UserQuestDataSet userQuestDataSet;
-    public QuestDataSet questDataSet;
+    [SerializeField] private bool IsQuestSet = true;        // 퀘스트 정보 받아오기 완료 했나?
+    //public UserQuestDataSet userQuestDataSet;               // 유저의 퀘스트 데이터
+    //public QuestDataSet questDataSet;                       // 퀘스트 데이터
     [Space(10f)]
 
     [Header("QuestList")]
-    public List<Quest> QuestList = new List<Quest>();
+    // #### 퀘스트 정보는 항상 QuestList 사용 ####
+    public List<Quest> QuestList = new List<Quest>();       // 통합 퀘스트 정보
 
 
     private List<QuestObject> QuestObjects { get { return QuestParent.GetComponentsInChildren<QuestObject>().ToList(); } }
 
     private IEnumerator Start()
     {
-        yield return SetQuestData();
-        CreateQuestObjects();
+        yield return SetQuestData();        // 퀘스트 통합 정보 받아온 후
+        CreateQuestObjects();               // 퀘스트 오브젝트 생성!
 
 
     }
 
     public IEnumerator SetQuestData()
     {
-        //UserQuestDataSet userQuestDataSet;
-        //QuestDataSet questDataSet;
+        UserQuestDataSet userQuestDataSet;
+        QuestDataSet questDataSet;
 
         // =========User Quest Data 가져오기==================
         Debug.Log("Getting User Quest Data...");
@@ -70,8 +71,8 @@ public class QuestManager : MonoBehaviour
         yield return userQuestWWW.SendWebRequest();
         if (userQuestWWW.error != null)
         {
-            Debug.LogError(userQuestWWW.error);
             Debug.LogError("Getting User Quest Data Failed");
+            Debug.LogError(userQuestWWW.error);
             yield break;
         }
         userQuestDataSet = JsonUtility.FromJson<UserQuestDataSet>(userQuestWWW.downloadHandler.text);
@@ -83,8 +84,8 @@ public class QuestManager : MonoBehaviour
         yield return questWWW.SendWebRequest();
         if (questWWW.error != null)
         {
-            Debug.LogError(questWWW.error);
             Debug.LogError("Getting Quest Data Failed");
+            Debug.LogError(questWWW.error);
             yield break;
         }
         questDataSet = JsonUtility.FromJson<QuestDataSet>(questWWW.downloadHandler.text);
@@ -113,7 +114,7 @@ public class QuestManager : MonoBehaviour
     }
 
     public void CreateQuestObjects()
-    {
+    {   // 진행 가능 퀘스트 오브젝트 생성 ( 진행 가능 퀘스트 && 존재하지 않는 퀘스트 )
         if (!IsQuestSet)
         {
             Debug.LogError("QuestNotSetYet");
@@ -131,7 +132,7 @@ public class QuestManager : MonoBehaviour
     }
 
     private bool CheckQuestObjectExsistance(string name)
-    {
+    {   // 퀘스트 오브젝트 존재 여부 리턴
         foreach(QuestObject obj in QuestObjects)
         {
             if (obj.name.Split('(')[0] == name)
@@ -141,35 +142,8 @@ public class QuestManager : MonoBehaviour
 
     }
 
-
-    //public List<Quest> GetQuest()
-    //{
-    //    if (IsQuestSet)
-    //        return QuestList;
-    //    else
-    //    {
-    //        Debug.LogError("QuestNotSetYet");
-    //        return null;
-    //    }
-    //}
-
-    //public Quest GetQuestByName(string name)
-    //{
-    //    if (!IsQuestSet)
-    //    {
-    //        Debug.LogError("QuestNotSetYet");
-    //        return null;
-    //    }
-    //    foreach (Quest quest in QuestList)
-    //    {
-    //        if (quest.QuestName == name)
-    //            return quest;
-    //    }
-    //    return null;
-    //}
-
     public List<Quest> GetQuestByRepeatType(ERepeatType repeatType)
-    {
+    {   // 반복 종류에 따라 퀘스트 리턴
         if (!IsQuestSet)
         {
             Debug.LogError("QuestNotSetYet");
@@ -185,7 +159,7 @@ public class QuestManager : MonoBehaviour
     }
 
     public List<Quest> GetQuestByCompletion(bool completion)
-    {
+    {   // 완료 여부에 따라 퀘스트 리턴
         if (!IsQuestSet)
         {
             Debug.LogError("QuestNotSetYet");
@@ -201,7 +175,7 @@ public class QuestManager : MonoBehaviour
     }
 
     private QuestData GetMatchingData(QuestDataSet questDataSet, UserQuestData userQuestData)
-    {
+    {   // 유저의 퀘스트 정보에 맞는 퀘스트 리턴
         foreach (QuestData quest in questDataSet.QuestDatas)
         {
             if (quest.name == userQuestData.quest_id)
@@ -210,7 +184,7 @@ public class QuestManager : MonoBehaviour
         return null;
     }
     private UserQuestData GetMatchingData(UserQuestDataSet userQuestDataSet, QuestData questData)
-    {
+    {   // 퀘스트 정보에 맞는 유저의 퀘스트 정보 리턴
         foreach (UserQuestData userData in userQuestDataSet.QuestDatas)
         {
             if (userData.quest_id == questData.name)

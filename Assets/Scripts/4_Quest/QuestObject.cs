@@ -7,36 +7,41 @@ using UnityEngine;
 
 public class QuestObject : MonoBehaviour
 {
-    public Quest Quest { get { return m_Quest; } set { m_Quest = value; } }
+    public Quest Quest { set { m_Quest = value; } }
     private Quest m_Quest;
-    private List<StepBase> m_steps { get { return GetComponentsInChildren<StepBase>().ToList(); } }
+    //private List<StepBase> Steps { get { return GetComponentsInChildren<StepBase>().ToList(); } }
 
     private IEnumerator Start()
     {
         yield return new WaitUntil(()=>m_Quest!=null);
-
+        //Debug.Log("Steps.Count = "+Steps.Count);
+        transform.GetChild(m_Quest.StepIndex).gameObject.SetActive(true);
+        //Steps[m_Quest.StepIndex].gameObject.SetActive(true);
     }
     private void Awake()
     {
-        m_steps[m_Quest.StepIndex].gameObject.SetActive(true);
+
 
     }
 
     public void NextStep()
     {
-        if (Quest.StepIndex > m_steps.Count)       // 다음 스텝이 없을 시
+        m_Quest.StepIndex++;
+        if (m_Quest.StepIndex >= transform.childCount)       // 다음 스텝이 없을 시
         {
             EndQuest();
             return;
         }
         // 다음 스텝 오브젝트 켜기
-        m_steps[m_Quest.StepIndex].gameObject.SetActive(true);
+        transform.GetChild(m_Quest.StepIndex).gameObject.SetActive(true);
         // DB에 정보 전달
     }
 
     public void EndQuest()
     {
-
+        // 퀘스트 완료 됨 DB에 전달
+        Debug.Log("Quest " + m_Quest.QuestName + " is Finished !!");
+        Destroy(gameObject);
     }
 
 
