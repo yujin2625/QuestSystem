@@ -32,17 +32,21 @@ public class Quest      // DB에서 가져오는 퀘스트 정보
     public int RewardPoint { get; set; }    // 포인트 보상
     public int MinLevel { get; set; }    // 퀘스트 시작 조건 - 레벨
     public ESpace Space { get; set; }    // 퀘스트 시작 조건 - 장소
+    public string Title {  get; set; }      // 퀘스트 제목
+    public string Context { get; set; }     // 퀘스트 내용
 
     //==============================================================================
     // yj_mb_quest에서 가져온 정보 
-    public int StepIndex {  get; set; }     // 현재 진행 중인 step index
-    public int Completed {  get; set; }     // 퀘스트 완료 여부
+    public int StepIndex { get; set; }     // 현재 진행 중인 step index
+    public int Completed { get; set; }     // 퀘스트 완료 여부
 
     //==============================================================================
     public bool IsCompleted { get { return Completed != 0; } }
+    public bool IsStartable { get { return Completed==0
+                &&( Space==PlayerManager.Instance.PlayerSpace||Space==ESpace.any)
+                && MinLevel<=PlayerManager.Instance.PlayerLevel; } }
 
-
-    public Quest(string questID, string questName, ERepeatType repeatType, int rewardPoint, int minLevel, ESpace space, int stepIndex = 0, int completed = 0)
+    public Quest(string questID, string questName, ERepeatType repeatType, int rewardPoint, int minLevel, ESpace space,string title,string context, int stepIndex = 0, int completed = 0)
     {
         QuestID = questID;
         QuestName = questName;
@@ -50,6 +54,8 @@ public class Quest      // DB에서 가져오는 퀘스트 정보
         RewardPoint = rewardPoint;
         MinLevel = minLevel;
         Space = space;
+        Title = title;
+        Context = context;
         StepIndex = stepIndex;
         Completed = completed;
     }

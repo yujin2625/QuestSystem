@@ -4,7 +4,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+public enum EQuestRadio
+{
+    Started,
+    Completed,
+    Daily,
+    Weekly,
+    Monthly,
+    Last
+}
 public class QuestUIManager : MonoBehaviour
 {
     #region singleton
@@ -36,6 +44,8 @@ public class QuestUIManager : MonoBehaviour
     [SerializeField] private List<ButtonDictionary> Buttons = new List<ButtonDictionary>();
     public Dictionary<string, Button> ButtonDictionary = new Dictionary<string, Button>();
 
+    private List<Quest> tempQuestList = new List<Quest>();
+
     private List<GameObject> QuestButtonChecks
     {
         get
@@ -60,10 +70,32 @@ public class QuestUIManager : MonoBehaviour
 
     public void OnClickTypeRadio()
     {
-
+        List<Quest> quests = new List<Quest>();
+        quests = QuestManager.instance.ReturnQuestsByType((EQuestRadio)TypeRadioButtonGroup.SelectedButtonIndex);
+        tempQuestList.Clear();
+        tempQuestList = quests;
+        for(int i = 0; i < QuestButtons.Count; i++)
+        {
+            if (i < quests.Count)
+            {
+                QuestButtons[i].interactable = true;
+                QuestButtons[i].GetComponentInChildren<TMP_Text>().text = quests[i].Title;
+            }
+            else
+            {
+                QuestButtons[i].interactable = false;
+                QuestButtons[i].GetComponentInChildren<TMP_Text>().text = "";
+            }
+        }
     }
 
-
+    public void OnClickQuestRadio()
+    {
+        if (tempQuestList == null)
+            return;
+        QuestText.text = tempQuestList[QuestRadioButtonGroup.SelectedButtonIndex].Context;
+        QuestRewardText.text = tempQuestList[QuestRadioButtonGroup.SelectedButtonIndex].StepIndex.ToString();
+    }
 
 }
 
