@@ -111,6 +111,7 @@ public class QuestManager : MonoBehaviour
         foreach (QuestData item in questDataSet.QuestDatas)
         {
             UserQuestData userData = GetMatchingData(userQuestDataSet, item);
+            Debug.LogWarning(item.repeat_type);
             if (userData == null)
                 QuestList.Add(new Quest(item.qm_id.ToString(), item.name, item.repeat_type, item.reward_point, item.min_level, item.space, item.title, item.context));
             else

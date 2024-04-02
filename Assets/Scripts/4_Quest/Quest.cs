@@ -46,11 +46,11 @@ public class Quest      // DB에서 가져오는 퀘스트 정보
                 &&( Space==PlayerManager.Instance.PlayerSpace||Space==ESpace.any)
                 && MinLevel<=PlayerManager.Instance.PlayerLevel; } }
 
-    public Quest(string questID, string questName, ERepeatType repeatType, int rewardPoint, int minLevel, ESpace space,string title,string context, int stepIndex = 0, int completed = 0)
+    public Quest(string questID, string questName, string repeatType, int rewardPoint, int minLevel, ESpace space,string title,string context, int stepIndex = 0, int completed = 0)
     {
         QuestID = questID;
         QuestName = questName;
-        RepeatType = repeatType;
+        RepeatType = (ERepeatType)Enum.Parse(typeof(ERepeatType), repeatType);
         RewardPoint = rewardPoint;
         MinLevel = minLevel;
         Space = space;

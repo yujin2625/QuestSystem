@@ -44,7 +44,7 @@ public class QuestUIManager : MonoBehaviour
     [SerializeField] private List<ButtonDictionary> Buttons = new List<ButtonDictionary>();
     public Dictionary<string, Button> ButtonDictionary = new Dictionary<string, Button>();
 
-    private List<Quest> tempQuestList = new List<Quest>();
+    public List<Quest> tempQuestList = new List<Quest>();
 
     private List<GameObject> QuestButtonChecks
     {
@@ -70,8 +70,7 @@ public class QuestUIManager : MonoBehaviour
 
     public void OnClickTypeRadio()
     {
-        List<Quest> quests = new List<Quest>();
-        quests = QuestManager.instance.ReturnQuestsByType((EQuestRadio)TypeRadioButtonGroup.SelectedButtonIndex);
+        List<Quest> quests = QuestManager.instance.ReturnQuestsByType((EQuestRadio)TypeRadioButtonGroup.SelectedButtonIndex);
         tempQuestList.Clear();
         tempQuestList = quests;
         for(int i = 0; i < QuestButtons.Count; i++)
@@ -87,12 +86,17 @@ public class QuestUIManager : MonoBehaviour
                 QuestButtons[i].GetComponentInChildren<TMP_Text>().text = "";
             }
         }
+        OnClickQuestRadio();
     }
 
     public void OnClickQuestRadio()
     {
-        if (tempQuestList == null)
+        if (tempQuestList.Count == 0)
+        {
+            QuestText.text = "";
+            QuestRewardText.text = "";
             return;
+        }
         QuestText.text = tempQuestList[QuestRadioButtonGroup.SelectedButtonIndex].Context;
         QuestRewardText.text = tempQuestList[QuestRadioButtonGroup.SelectedButtonIndex].StepIndex.ToString();
     }

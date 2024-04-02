@@ -189,7 +189,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 34323753}
-  m_LocalRotation: {x: 0.10263582, y: 0.000000004278879, z: -4.4149776e-10, w: 0.994719}
+  m_LocalRotation: {x: 0.10263582, y: -0.000000004278879, z: 4.4149776e-10, w: 0.994719}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -307,6 +307,7 @@ MonoBehaviour:
     value: {fileID: 1674144166}
   - key: QuestButton
     value: {fileID: 8155888901919076759}
+  tempQuestList: []
 --- !u!114 &237719612 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4703867614806077076, guid: 60272f6632a027548a3d9e74cb12d53e, type: 3}
@@ -2518,6 +2519,14 @@ PrefabInstance:
     - target: {fileID: 1160819510, guid: 60272f6632a027548a3d9e74cb12d53e, type: 3}
       propertyPath: m_Name
       value: QuestButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 1160819512, guid: 60272f6632a027548a3d9e74cb12d53e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 193521034}
+    - target: {fileID: 1160819512, guid: 60272f6632a027548a3d9e74cb12d53e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickTypeRadio
       objectReference: {fileID: 0}
     - target: {fileID: 1508792323, guid: 60272f6632a027548a3d9e74cb12d53e, type: 3}
       propertyPath: OnSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Target

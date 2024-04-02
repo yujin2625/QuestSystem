@@ -13,7 +13,7 @@ public class RadioButtonGroup : MonoBehaviour
     [SerializeField] private Color SelectedColor;
 
     private RadioButton SelectedButton;
-    public int SelectedButtonIndex { get { return RadioButtons.IndexOf(SelectedButton); } }
+    public int SelectedButtonIndex { get { if (SelectedButton == null) return 0; return RadioButtons.IndexOf(SelectedButton); } }
 
     private void Awake()
     {
